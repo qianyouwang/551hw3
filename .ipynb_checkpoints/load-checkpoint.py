@@ -1,7 +1,7 @@
 import pandas as pd
 import sys
 import pymysql
-from sqlalchemy import create_engine, 
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from lxml import etree
 
@@ -15,7 +15,8 @@ DB_NAME = "dsci551"
 image = open(sys.argv[1])
 
 # Connect to the database
-engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
+pymysql.install_as_MySQLsb()
+engine = create_engine(f"mysql+mysqldb://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
 conn = engine.connect()
 
 session = sessionmaker(bind=engine)()
