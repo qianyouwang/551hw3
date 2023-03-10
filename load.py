@@ -15,7 +15,7 @@ DB_NAME = "dsci551"
 image = open(sys.argv[1])
 
 # Connect to the database
-pymysql.install_as_MySQLsb()
+pymysql.install_as_MySQLdb()
 engine = create_engine(f"mysql+mysqldb://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
 conn = engine.connect()
 
