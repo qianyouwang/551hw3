@@ -37,7 +37,7 @@ inode_df = pd.DataFrame(inode_data, columns=["id", "type", "name", "replication"
 inode_df.to_sql("inode", con=conn, if_exists="append", index=False)
 
 # Extract directory information and store it in the database
-directories = xml.xpath("//directory")
+directories = tree.xpath("//directory")
 directory_data = []
 
 for directory in directories:
