@@ -1,7 +1,7 @@
 import pandas as pd
 import sys
 import pymysql
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, sessionmaker
 from lxml import etree
 
 # Define database connection parameters
@@ -16,6 +16,8 @@ image = open(sys.argv[1])
 # Connect to the database
 engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
 conn = engine.connect()
+
+session = sessionmaker(bind=engine)()
 
 # Load the fsimage file
 tree = etree.parse(image)
@@ -49,6 +51,8 @@ for directory in directories:
         
 directory_df = pd.DataFrame(directory_data, columns=["parent", "child"])
 directory_df.to_sql("directory", con=conn, if_exists="append", index=False)
+
+session.commit()
 
 # Close the database connection
 conn.close()
