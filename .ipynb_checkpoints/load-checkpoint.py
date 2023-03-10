@@ -11,7 +11,7 @@ DB_HOST = "localhost"
 DB_NAME = "dsci551"
 
 # Parse command line arguments
-image = sys.argv[1]
+image = open(sys.argv[1])
 
 # Connect to the database
 engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
@@ -39,12 +39,14 @@ inode_df.to_sql("inode", con=conn, if_exists="append", index=False)
 # Extract directory information and store it in the database
 directories = xml.xpath("//directory")
 directory_data = []
+
 for directory in directories:
     parent = int(directory.xpath("./parent")[0].text)
     children = directory.xpath("./children/*")
     for child in children:
         child_inumber = int(child.xpath("./inode")[0].text)
         directory_data.append((parent, child_inumber))
+
 directory_df = pd.DataFrame(directory_data, columns=["parent", "child"])
 directory_df.to_sql("directory", con=conn, if_exists="append", index=False)
 
