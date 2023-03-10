@@ -1,7 +1,8 @@
 import pandas as pd
 import sys
 import pymysql
-from sqlalchemy import create_engine, sessionmaker
+from sqlalchemy import create_engine, 
+from sqlalchemy.orm import sessionmaker
 from lxml import etree
 
 # Define database connection parameters
