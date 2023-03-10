@@ -18,7 +18,7 @@ engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_N
 conn = engine.connect()
 
 # Load the fsimage file
-xml = etree.parse(image)
+tree = etree.parse(image)
 
 # Extract inode information and store it in the database
 inodes = tree.xpath("//inode")
