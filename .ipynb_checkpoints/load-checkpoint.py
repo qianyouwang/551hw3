@@ -21,17 +21,17 @@ conn = engine.connect()
 xml = etree.parse(image)
 
 # Extract inode information and store it in the database
-inodes = xml.xpath("//inode")
+inodes = tree.xpath("//inode")
 inode_data = []
 for inode in inodes:
-    inode_id = int(inode.xpath("./id")[0].text)
-    inode_type = inode.xpath("./type")[0].text
-    inode_name = inode.xpath("./name")[0].text if (inode.xpath("./name")[0].text != "None") else ""
+    inode_id = int(inode.xpath("./id")[0].text) if inode.xpath("./id") else 0
+    inode_type = inode.xpath("./type")[0].text if (inode.xpath("./type")[0].text) else ""
+    inode_name = inode.xpath("./name")[0].text if (inode.xpath("./name")[0].text) else ""
     inode_replication = int(inode.xpath("./replication")[0].text) if inode.xpath("./replication") else 0
-    inode_mtime = int(inode.xpath("./mtime")[0].text)
+    inode_mtime = int(inode.xpath("./mtime")[0].text) if inode.xpath("./mtime") else 0
     inode_atime = int(inode.xpath("./atime")[0].text) if inode.xpath("./atime") else 0
     inode_blocksize = int(inode.xpath("./preferredBlockSize")[0].text) if inode.xpath("./preferredBlockSize") else 0
-    inode_permission = inode.xpath("./permission")[0].text
+    inode_permission = inode.xpath("./permission")[0].text if (inode.xpath("./permission")[0].text) else ""
     inode_data.append((inode_id, inode_type, inode_name, inode_replication, inode_mtime, inode_atime, inode_blocksize, inode_permission))
 inode_df = pd.DataFrame(inode_data, columns=["id", "type", "name", "replication", "mtime", "atime", "preferredBlockSize", "permission"])
 inode_df.to_sql("inode", con=conn, if_exists="append", index=False)
