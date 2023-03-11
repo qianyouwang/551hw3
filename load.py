@@ -47,7 +47,6 @@ for inode in inodes:
         for block in blocks:
             block_id = int(block.xpath("./id")[0].text) if block.xpath("./id") else 0
             block_inumber = inode_id
-            print(block_inumber)
             block_genstamp = int(block.xpath("./genstamp")[0].text) if block.xpath("./genstamp") else 0
             block_numBytes = int(block.xpath("./numBytes")[0].text) if block.xpath("./numBytes") else 0
             blocks_data.append((block_id, block_inumber, block_genstamp, block_numBytes))
