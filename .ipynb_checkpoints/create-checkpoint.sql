@@ -1,3 +1,5 @@
+DROP TABLE inode, blocks, directory
+
 CREATE TABLE inode (
     id INT PRIMARY KEY,
     type VARCHAR(50),
