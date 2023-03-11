@@ -54,7 +54,7 @@ for inode in inodes:
 inode_df = pd.DataFrame(inode_data, columns=["id", "type", "name", "replication", "mtime", "atime", "preferredBlockSize", "permission"])
 blocks_df = pd.DataFrame(blocks_data, columns=["id", "inumber", "genstamp", "numBytes"])
 inode_df.to_sql("inode", con=conn, if_exists="append", index=False)
-blocks_df.to_sql("blocks", con=conn, if_exists="append", index=False)
+inode_df.to_sql("blocks", con=conn, if_exists="append", index=False)
 
 # Extract directory information and store it in the database
 directories = tree.xpath("//directory")
