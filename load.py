@@ -69,5 +69,3 @@ directory_df = pd.DataFrame(directory_data, columns=["parent", "child"])
 directory_df.to_sql("directory", engine, if_exists="append", index=False)
 
 
-# Close the database connection
-# conn.close()

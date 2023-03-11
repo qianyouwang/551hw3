@@ -17,10 +17,7 @@ image = open(sys.argv[1])
 # Connect to the database
 pymysql.install_as_MySQLdb()
 engine = create_engine(f"mysql+mysqldb://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
-conn = engine.connect()
 
-Session = sessionmaker(bind=engine)
-session = Session()
 
 # Load the fsimage file
 tree = etree.parse(image)
@@ -54,8 +51,8 @@ for inode in inodes:
     
 inode_df = pd.DataFrame(inode_data, columns=["id", "type", "name", "replication", "mtime", "atime", "preferredBlockSize", "permission"])
 blocks_df = pd.DataFrame(blocks_data, columns=["id", "inumber", "genstamp", "numBytes"])
-inode_df.to_sql("inode", con=conn, if_exists="append", index=False)
-blocks_df.to_sql("blocks", con=conn, if_exists="append", index=False)
+inode_df.to_sql("inode", engine, if_exists="append", index=False)
+blocks_df.to_sql("blocks", engine, if_exists="append", index=False)
 
 # Extract directory information and store it in the database
 directories = tree.xpath("//directory")
@@ -69,9 +66,6 @@ for directory in directories:
         directory_data.append((parent, child_inumber))
         
 directory_df = pd.DataFrame(directory_data, columns=["parent", "child"])
-directory_df.to_sql("directory", con=conn, if_exists="append", index=False)
+directory_df.to_sql("directory", engine, if_exists="append", index=False)
 
-session.commit()
 
-# Close the database connection
-conn.close()
