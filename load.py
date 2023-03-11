@@ -19,7 +19,8 @@ pymysql.install_as_MySQLdb()
 engine = create_engine(f"mysql+mysqldb://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
 conn = engine.connect()
 
-session = sessionmaker(bind=engine)()
+Session = sessionmaker(bind=engine)
+session = Session()
 
 # Load the fsimage file
 tree = etree.parse(image)
